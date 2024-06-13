@@ -31,24 +31,17 @@ public class Node {
 
 
     public Node addChild(int[] move) {
-
         char[][] clone = TicTacToe.cloneBoard(board);
-
         boolean playerTurn = action.player;
         Action childAction = new Action(!playerTurn, move);
         if (playerTurn) {
-
-            board[move[0]][move[1]] = TicTacToe.computer;
+            clone[move[0]][move[1]] = TicTacToe.computer;
         } else {
-
-            board[move[0]][move[1]] = TicTacToe.player;
+            clone[move[0]][move[1]] = TicTacToe.player;
         }
-
         Node child = new Node(this, clone, childAction);
-
         children.add(child);
         return child;
-
     }
 
     public boolean isFullyExpanded() {
@@ -70,14 +63,7 @@ public class Node {
                 }
             }
             if (!isExplored) {
-                char[][] clone = TicTacToe.cloneBoard(board);
-                if (action.player) {
-                    clone[move[0]][move[1]] = TicTacToe.computer;
-                } else {
-                    clone[move[0]][move[1]] = TicTacToe.player;
-                }
-
-                unexploredNodes.add(new Node(this, TicTacToe.cloneBoard(board), new Action(!action.player, move)));
+                unexploredNodes.add(new Node(this, board, new Action(!action.player, move)));
             }
         }
         return unexploredNodes;

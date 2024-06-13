@@ -6,6 +6,8 @@ public class Game {
     static char computer = 'o';
     static Scanner sc = new Scanner(System.in);
 
+    public static boolean playerFirst = false;
+
     public static void main(String[] args) {
         char board[][] = {
                 { '_', '_', '_' },
@@ -16,21 +18,39 @@ public class Game {
         MCTS mcts = new MCTS();
 
         while (TicTacToe.evaluate(board) == 0 && TicTacToe.isMovesLeft(board)) {
-            TicTacToe.printBoard(board);
 
-            // Player move
-            int[] move = getPlayerMove(board);
-            board[move[0]][move[1]] = player;
+            if (playerFirst) {
+                TicTacToe.printBoard(board);
 
-            TicTacToe.printBoard(board);
+                // Player move
+                int[] move = getPlayerMove(board);
+                board[move[0]][move[1]] = player;
 
-            if (TicTacToe.evaluate(board) != 0 || !TicTacToe.isMovesLeft(board)) {
-                break;
+                TicTacToe.printBoard(board);
+
+                if (TicTacToe.evaluate(board) != 0 || !TicTacToe.isMovesLeft(board)) {
+                    break;
+                }
+
+                mcts.playBestMove(board, move);
+
+                TicTacToe.printBoard(board);
+
+            } else {
+                TicTacToe.printBoard(board);
+
+                mcts.playBestMove(board, null);
+
+                TicTacToe.printBoard(board);
+
+                if (TicTacToe.evaluate(board) != 0 || !TicTacToe.isMovesLeft(board)) {
+                    break;
+                }
+
+                int[] move = getPlayerMove(board);
+                board[move[0]][move[1]] = player;
             }
 
-            mcts.playBestMove(board, move);
-
-            TicTacToe.printBoard(board);
         }
 
         int result = TicTacToe.evaluate(board);

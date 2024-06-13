@@ -1,5 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -36,7 +37,7 @@ public class MCTS {
         for (Node child : rootNode.children) {
 
             double childValue = (double) child.wins / child.visits;
-            System.out.println("VALUE: " + childValue);
+            System.out.println("MOVE: " + Arrays.toString(child.action.move) + " VALUE: " + childValue + " WINS: " + child.wins + " VISITS: " + child.visits);
             if (childValue > bestValue) {
                 bestValue = childValue;
                 bestMove = child.action.move;
@@ -49,14 +50,14 @@ public class MCTS {
 
     public void MCTS(Node rootNode, int iterationCount) {
         for (int i = 0; i < iterationCount; i++) {
-            System.out.println("Iteration Count: " + i);
+
             Node selectedNode = selection(rootNode);
             Node expandedNode = expansion(selectedNode);
             int simulationResult = simulation(expandedNode);
             backpropagation(expandedNode, simulationResult);
         }
         int total = getTotalNodes(rootNode);
-        System.out.println(total);
+        System.out.println("Total Nodes: " + total);
 
     }
 
@@ -72,7 +73,7 @@ public class MCTS {
         while (node != null) {
             node.visits++;
             if (simulationResult == 10) {
-                node.wins += simulationResult;
+                node.wins += 1;
             }
 
             node = node.parent;
@@ -113,7 +114,8 @@ public class MCTS {
 
     public Node expandNode(Node node) {
         ArrayList<Node> unexploredNodes = node.getUnexploredChildren();
-        Node child = node.addChild(unexploredNodes.get((int) (Math.random() * unexploredNodes.size())).action.move);
+        Node unexploredNode = unexploredNodes.get((int) (Math.random() * unexploredNodes.size()));
+        Node child = node.addChild(unexploredNode.action.move);
         return child;
     }
 
