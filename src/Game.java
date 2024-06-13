@@ -9,7 +9,7 @@ public class Game {
     public static boolean playerFirst = false;
 
     public static void main(String[] args) {
-        char board[][] = {
+        char[][] board = {
                 { '_', '_', '_' },
                 { '_', '_', '_' },
                 { '_', '_', '_' }
@@ -22,7 +22,7 @@ public class Game {
             if (playerFirst) {
                 TicTacToe.printBoard(board);
 
-                // Player move
+
                 int[] move = getPlayerMove(board);
                 board[move[0]][move[1]] = player;
 

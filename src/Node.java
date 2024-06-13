@@ -44,6 +44,7 @@ public class Node {
         return child;
     }
 
+
     public boolean isFullyExpanded() {
         return initializedChildren.size() == children.size();
 
