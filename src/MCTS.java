@@ -29,7 +29,7 @@ public class MCTS {
 
 
 
-        Node rootNode = new Node(null,  board, new Action(false, pastMove));
+        Node rootNode = new Node(null,  board, new Action(true, pastMove));
         MCTS(rootNode, 10000);
         int[] bestMove = null;
         double bestValue = -1;
@@ -72,7 +72,7 @@ public class MCTS {
     public void backpropagation(Node node, int simulationResult) {
         while (node != null) {
             node.visits++;
-            if (simulationResult == 10) {
+            if (simulationResult == -10) {
                 node.wins += 1;
             }
 
