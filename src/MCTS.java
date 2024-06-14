@@ -32,7 +32,7 @@ public class MCTS {
         Node rootNode = new Node(null,  board, new Action(true, pastMove));
         MCTS(rootNode, 10000);
         int[] bestMove = null;
-        double bestValue = -1;
+        double bestValue = Integer.MIN_VALUE;
 
         for (Node child : rootNode.children) {
 
@@ -53,6 +53,9 @@ public class MCTS {
 
             Node selectedNode = selection(rootNode);
             Node expandedNode = expansion(selectedNode);
+            if (TicTacToe.evaluate(expandedNode.board) == 10) {
+                expandedNode.parent.wins = -1000000;
+            }
             int simulationResult = simulation(expandedNode);
             backpropagation(expandedNode, simulationResult);
         }
@@ -70,14 +73,17 @@ public class MCTS {
     }
 
     public void backpropagation(Node node, int simulationResult) {
-        while (node != null) {
-            node.visits++;
-            if (simulationResult == -10) {
-                node.wins += 1;
-            }
 
-            node = node.parent;
+            while (node != null) {
+                node.visits++;
+                if (simulationResult == -10) {
+                    node.wins += 1;
+                }
+
+                node = node.parent;
+
         }
+
     }
 
     public int simulation(Node node) {

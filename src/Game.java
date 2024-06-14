@@ -10,9 +10,9 @@ public class Game {
 
     public static void main(String[] args) {
         char[][] board = {
-                { 'x', '_', 'x' },
-                { '_', 'o', '_' },
-                { 'o', '_', '_' }
+                { '_', '_', '_' },
+                { '_', '_', '_' },
+                { '_', '_', '_' }
         };
 
         MCTS mcts = new MCTS();
